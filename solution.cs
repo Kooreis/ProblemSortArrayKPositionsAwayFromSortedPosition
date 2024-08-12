@@ -1,34 +1,31 @@
 class PriorityQueue {
-    constructor(comparator = (a, b) => a > b) {
-        this._heap = [null];
-        this._comparator = comparator;
+    // ... existing code ...
+
+    _parent(i) {
+        return Math.floor(i/2);
     }
 
-    size() {
-        return this._heap.length - 1;
+    _left(i) {
+        return i * 2;
     }
 
-    isEmpty() {
-        return this.size() == 0;
+    _right(i) {
+        return i * 2 + 1;
     }
 
-    peek() {
-        return this._heap[1];
+    _hasLeft(i) {
+        return this._left(i) <= this.size();
     }
 
-    push(value) {
-        this._heap.push(value);
-        this._siftUp();
+    _hasRight(i) {
+        return this._right(i) <= this.size();
     }
 
-    pop() {
-        const poppedValue = this.peek();
-        const bottom = this.size();
-        if (bottom > 1) {
-            this._swap(1, bottom);
-        }
-        this._heap.pop();
-        this._siftDown();
-        return poppedValue;
+    _swap(i, j) {
+        [this._heap[i], this._heap[j]] = [this._heap[j], this._heap[i]];
+    }
+
+    _compare(i, j) {
+        return this._comparator(this._heap[i], this._heap[j]);
     }
 }
